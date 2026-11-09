@@ -12,6 +12,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Always reserve room for the scrollbar, so the page doesn't shift
+     sideways between short pages (no scrollbar) and long ones. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -53,9 +56,17 @@ img {
   border: 0;
 }
 
-/* Long-form text (post bodies, About page) */
-.prose {
+/* Long-form text (post bodies, About page): text stays in a left-aligned
+   column; figures and their captions are centred on the page. */
+.prose > * {
   max-width: var(--content-width);
+}
+.prose > p:has(> img) {
+  max-width: none;
+}
+.prose > p:has(> img) + p:has(> em:only-child) {
+  margin-left: auto;
+  margin-right: auto;
 }
 .prose h2,
 .prose h3 {
@@ -84,4 +95,46 @@ img {
   padding: 1rem;
   overflow-x: auto;
   border: var(--rule-thin) solid var(--color-rule);
+}
+
+/* Figures: shown at their own size (all exported at the same scale), never
+   wider than the text, centred. Diagrams are drawn on white, so keep a white
+   backing in dark mode. */
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em auto 0.5em;
+  background: var(--color-figure-bg);
+  border: var(--rule-thin) solid var(--color-rule);
+}
+.prose img + em,
+.prose p:has(> img) + p > em:only-child {
+  display: block;
+  text-align: center;
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+
+/* Tables: scroll sideways on small screens instead of squashing */
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 0 0 1.5em;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+.prose th,
+.prose td {
+  padding: 0.5em 0.75em;
+  border: var(--rule-thin) solid var(--color-rule);
+  text-align: left;
+  vertical-align: top;
+}
+.prose th {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
 }

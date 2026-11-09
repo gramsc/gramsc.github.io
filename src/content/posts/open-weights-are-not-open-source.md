@@ -3,6 +3,7 @@ title: "Open weights are not open source"
 date: 2026-10-28
 category: lorem
 summary: "Publishing a model's weights without its data or training code is a gift, not a transfer of the means of production."
+draft: true
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor

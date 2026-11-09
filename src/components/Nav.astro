@@ -1,20 +1,23 @@
 ---
 /*
- * Top bar: site name on the left, boxed nav cells on the right.
+ * Top bar: "Blog" (home) on the left, boxed nav cells on the right.
  * The cell for the current page is drawn inverted (solid).
  */
 import { url, stripBase } from '../lib/url';
-import { site } from '../data/site';
 
 const path = stripBase(Astro.url.pathname);
-const links = [
-  { href: url('/'), label: 'Blog', active: path === '/' || path.startsWith('/category/') },
-  { href: url('/about/'), label: 'About', active: path.startsWith('/about') },
-];
+const blogActive = path === '/' || path.startsWith('/category/') || path.startsWith('/posts/');
+const links = [{ href: url('/about/'), label: 'About', active: path.startsWith('/about') }];
 ---
 
 <header class="nav">
-  <a class="nav__brand" href={url('/')}>{site.title}</a>
+  <a
+    class:list={['nav__brand', 'mono-label', { 'is-active': blogActive }]}
+    href={url('/')}
+    aria-current={blogActive ? 'page' : undefined}
+  >
+    Blog
+  </a>
   <nav aria-label="Main">
     <ul class="nav__cells">
       {
@@ -75,15 +78,14 @@ const links = [
     border-bottom: var(--rule-thick) solid var(--color-rule);
   }
 
+  /* Same look as the other cells, but on the left */
   .nav__brand {
     display: flex;
     align-items: center;
-    padding: 0 var(--gutter);
+    padding: 0 1.6rem;
     border-right: var(--rule-thick) solid var(--color-rule);
-    font-family: var(--font-mono);
+    color: var(--color-text);
     font-weight: 700;
-    font-size: 1.05rem;
-    text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
   }
@@ -117,10 +119,12 @@ const links = [
     cursor: pointer;
   }
 
+  .nav__brand:hover,
   .nav__cell:hover {
     background: var(--color-hover);
   }
 
+  .nav__brand.is-active,
   .nav__cell.is-active {
     background: var(--color-inverse-bg);
     color: var(--color-inverse-text);
@@ -136,15 +140,14 @@ const links = [
   }
 
   @media (max-width: 640px) {
-    .nav {
-      flex-direction: column;
-    }
     .nav__brand {
-      padding: 0.9rem 1rem;
-      border-right: 0;
-      border-bottom: var(--rule-thick) solid var(--color-rule);
+      flex: 1;
+      justify-content: center;
+      padding: 0.9rem 0.5rem;
     }
-    .nav nav,
+    .nav nav {
+      flex: 2;
+    }
     .nav__cells {
       width: 100%;
     }

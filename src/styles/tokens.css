@@ -34,19 +34,21 @@
   --color-bg: #ffffff;
   --color-text: #111111;
   --color-muted: #666666;     /* summaries, dates */
-  --color-accent: #555555;    /* category numbers & descriptions (red on the reference site) */
+  --color-accent: #d81e14;    /* red: category numbers & descriptions, tagline */
   --color-link: #111111;      /* "ALL N POSTS →" links */
   --color-rule: #111111;      /* black dividing lines */
   --color-hover: #f2f2f2;     /* entry hover background */
   --color-inverse-bg: #111111;  /* active nav cell */
   --color-inverse-text: #ffffff;
+  --color-figure-bg: #ffffff;  /* behind diagrams (drawn on white) */
 
   /* ---- Rules & spacing ------------------------------------------------ */
   --rule-thick: 3px;
   --rule-thin: 1px;
   --gutter: 1.75rem;          /* inner padding of columns / entries */
   --nav-height: 3.75rem;
-  --content-width: 42rem;     /* reading width on post / about pages */
+  --heading-band-height: 14.5rem; /* big heading band, same on every page */
+  --content-width: 46rem;     /* width of the text column on post / about pages */
 
   color-scheme: light;
 }
@@ -55,12 +57,13 @@
   --color-bg: #111111;
   --color-text: #eeeeee;
   --color-muted: #9a9a9a;
-  --color-accent: #b0b0b0;
+  --color-accent: #ff5a4f;
   --color-link: #eeeeee;
   --color-rule: #eeeeee;
   --color-hover: #1c1c1c;
   --color-inverse-bg: #eeeeee;
   --color-inverse-text: #111111;
+  --color-figure-bg: #ffffff;
 
   color-scheme: dark;
 }
