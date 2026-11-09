@@ -3,7 +3,7 @@ layout: ../layouts/AboutLayout.astro
 title: About
 ---
 
-**Back propaganda** explores open source AI from a Marxist perspective.
+**Gramsc's blog** explores open source AI from a Marxist perspective.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Who owns the models, the
 data and the compute? Sed do eiusmod tempor incididunt ut labore et dolore magna
@@ -18,3 +18,8 @@ culpa qui officia deserunt mollit anim id est laborum.
 ## Contact
 
 Lorem ipsum: replace this section with how readers can reach you.
+
+## Credits
+
+The layout and look of this site are inspired by
+[chinesemarxism.org](https://chinesemarxism.org/about.html).

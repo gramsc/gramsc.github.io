@@ -11,7 +11,7 @@
 
 :root {
   /* ---- Fonts ---------------------------------------------------------- */
-  /* Huge page heading ("BACK PROPAGANDA") */
+  /* Huge page heading (the site title) */
   --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
   /* Category names, UI labels */
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;

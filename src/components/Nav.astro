@@ -8,7 +8,7 @@ import { site } from '../data/site';
 
 const path = stripBase(Astro.url.pathname);
 const links = [
-  { href: url('/'), label: 'Browse', active: path === '/' || path.startsWith('/category/') },
+  { href: url('/'), label: 'Blog', active: path === '/' || path.startsWith('/category/') },
   { href: url('/about/'), label: 'About', active: path.startsWith('/about') },
 ];
 ---

@@ -3,6 +3,7 @@ title: "Running a language model on your own machine"
 date: 2026-11-02
 category: dolor
 summary: "A first practical step out of the cloud: serving a quantised open model locally."
+draft: true
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.

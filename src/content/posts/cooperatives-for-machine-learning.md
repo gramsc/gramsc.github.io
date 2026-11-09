@@ -3,6 +3,7 @@ title: "Could a cooperative train a frontier model? Notes on pooling compute, da
 date: 2026-07-30
 category: consectetur
 summary: "Sketching what worker- and user-owned AI infrastructure might look like in practice."
+draft: true
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ut ligula vel nunc
