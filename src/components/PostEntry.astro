@@ -1,0 +1,73 @@
+---
+/*
+ * One post in a list: title, one-line summary, date.
+ * The whole block is clickable.
+ */
+import { url } from '../lib/url';
+import { formatDate, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="entry">
+  <h3 class="entry__title">
+    <a href={url(`/posts/${post.id}/`)}>{post.data.title}</a>
+  </h3>
+  <p class="entry__summary">{post.data.summary}</p>
+  <time class="entry__date" datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+</article>
+
+<style>
+  .entry {
+    position: relative;
+    padding: 1.1rem var(--gutter) 1.2rem;
+    border-bottom: var(--rule-thin) solid var(--color-rule);
+  }
+
+  .entry:hover {
+    background: var(--color-hover);
+  }
+
+  .entry__title {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-serif);
+    font-size: var(--text-entry-title);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .entry__title a {
+    text-decoration: none;
+  }
+
+  /* Stretch the title link over the whole entry */
+  .entry__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .entry:hover .entry__title a {
+    text-decoration: underline;
+  }
+
+  .entry__summary {
+    margin: 0 0 0.45rem;
+    font-family: var(--font-serif);
+    font-size: var(--text-small);
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  .entry__date {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-muted);
+  }
+</style>

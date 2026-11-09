@@ -1,0 +1,10 @@
+# dependencies
+node_modules/
+# build output
+dist/
+# Astro generated types
+.astro/
+# misc
+.DS_Store
+# screens
+screens/

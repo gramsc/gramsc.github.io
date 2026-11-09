@@ -1,0 +1,66 @@
+/*
+ * DESIGN TOKENS — the single place to change the look of the site.
+ *
+ * Every colour, font and rule thickness used anywhere else is a variable
+ * defined here. To restyle the site (e.g. the future 8-bit / Matrix look),
+ * edit the values below; no other file should contain raw colours or fonts.
+ *
+ * Light theme is the default (:root). Dark theme overrides only colours,
+ * under [data-theme="dark"], which the DARK button in the nav toggles.
+ */
+
+:root {
+  /* ---- Fonts ---------------------------------------------------------- */
+  /* Huge page heading ("BACK PROPAGANDA") */
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Category names, UI labels */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Post titles and body text */
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+  /* Nav, numbers, dates, small metadata */
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* ---- Type scale ----------------------------------------------------- */
+  --text-display: clamp(2.75rem, 7.5vw, 8rem);
+  --text-h1: clamp(2rem, 4vw, 3rem);
+  --text-category: 1.5rem;
+  --text-entry-title: 1.125rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+  --text-meta: 0.75rem;
+  --tracking-mono: 0.08em;   /* letter spacing for monospace labels */
+
+  /* ---- Colours (light) ------------------------------------------------ */
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #666666;     /* summaries, dates */
+  --color-accent: #555555;    /* category numbers & descriptions (red on the reference site) */
+  --color-link: #111111;      /* "ALL N POSTS →" links */
+  --color-rule: #111111;      /* black dividing lines */
+  --color-hover: #f2f2f2;     /* entry hover background */
+  --color-inverse-bg: #111111;  /* active nav cell */
+  --color-inverse-text: #ffffff;
+
+  /* ---- Rules & spacing ------------------------------------------------ */
+  --rule-thick: 3px;
+  --rule-thin: 1px;
+  --gutter: 1.75rem;          /* inner padding of columns / entries */
+  --nav-height: 3.75rem;
+  --content-width: 42rem;     /* reading width on post / about pages */
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --color-bg: #111111;
+  --color-text: #eeeeee;
+  --color-muted: #9a9a9a;
+  --color-accent: #b0b0b0;
+  --color-link: #eeeeee;
+  --color-rule: #eeeeee;
+  --color-hover: #1c1c1c;
+  --color-inverse-bg: #eeeeee;
+  --color-inverse-text: #111111;
+
+  color-scheme: dark;
+}

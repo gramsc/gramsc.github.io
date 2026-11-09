@@ -1,0 +1,30 @@
+---
+/*
+ * Layout for simple Markdown pages such as src/pages/about.md:
+ * big heading band, then the Markdown as prose.
+ */
+import BaseLayout from './BaseLayout.astro';
+import PageHeading from '../components/PageHeading.astro';
+import { site } from '../data/site';
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title}>
+  <PageHeading title={frontmatter.title} aside={site.tagline} />
+  <div class="page-body prose">
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  .page-body {
+    padding: 2rem 4.5rem 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .page-body {
+      padding: 1.5rem 1rem 2.5rem;
+    }
+  }
+</style>

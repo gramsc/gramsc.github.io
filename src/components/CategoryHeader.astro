@@ -1,0 +1,72 @@
+---
+/*
+ * "01  CATEGORY NAME / description" block at the top of a category column
+ * (and of a category page).
+ */
+import { url } from '../lib/url';
+import { categoryNumber, type Category } from '../data/categories';
+
+interface Props {
+  category: Category;
+  /** Heading level: h2 on the home page, h1 on a category page. */
+  as?: 'h1' | 'h2';
+  /** Link the name to the category page. */
+  link?: boolean;
+}
+
+const { category, as: Heading = 'h2', link = false } = Astro.props;
+const href = url(`/category/${category.slug}/`);
+---
+
+<header class="cat-header">
+  <span class="cat-header__number">{categoryNumber(category.slug)}</span>
+  <div>
+    <Heading class="cat-header__name">
+      {link ? <a href={href}>{category.name}</a> : category.name}
+    </Heading>
+    <p class="cat-header__description">{category.description}</p>
+  </div>
+</header>
+
+<style>
+  .cat-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1rem;
+    align-items: baseline;
+    padding: 1.4rem var(--gutter) 1.2rem;
+    border-bottom: var(--rule-thick) solid var(--color-rule);
+  }
+
+  .cat-header__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  .cat-header__name {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-category);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .cat-header__name a {
+    text-decoration: none;
+  }
+
+  .cat-header__name a:hover {
+    text-decoration: underline;
+  }
+
+  .cat-header__description {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-serif);
+    font-size: var(--text-small);
+    color: var(--color-accent);
+  }
+</style>

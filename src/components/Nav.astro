@@ -1,0 +1,163 @@
+---
+/*
+ * Top bar: site name on the left, boxed nav cells on the right.
+ * The cell for the current page is drawn inverted (solid).
+ */
+import { url, stripBase } from '../lib/url';
+import { site } from '../data/site';
+
+const path = stripBase(Astro.url.pathname);
+const links = [
+  { href: url('/'), label: 'Browse', active: path === '/' || path.startsWith('/category/') },
+  { href: url('/about/'), label: 'About', active: path.startsWith('/about') },
+];
+---
+
+<header class="nav">
+  <a class="nav__brand" href={url('/')}>{site.title}</a>
+  <nav aria-label="Main">
+    <ul class="nav__cells">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              class:list={['nav__cell', 'mono-label', { 'is-active': link.active }]}
+              href={link.href}
+              aria-current={link.active ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <button class="nav__cell mono-label" type="button" id="theme-toggle" aria-pressed="false">
+          <span class="nav__icon" aria-hidden="true"></span>
+          <span id="theme-toggle-label">Dark</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const root = document.documentElement;
+  const button = document.getElementById('theme-toggle')!;
+  const label = document.getElementById('theme-toggle-label')!;
+
+  function render() {
+    const isDark = root.dataset.theme === 'dark';
+    // The button names the theme you will switch TO.
+    label.textContent = isDark ? 'Light' : 'Dark';
+    button.setAttribute('aria-pressed', String(isDark));
+  }
+
+  button.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* storage unavailable (private mode): the choice lasts for this page only */
+    }
+    render();
+  });
+
+  render();
+</script>
+
+<style>
+  .nav {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: var(--nav-height);
+    border-bottom: var(--rule-thick) solid var(--color-rule);
+  }
+
+  .nav__brand {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--gutter);
+    border-right: var(--rule-thick) solid var(--color-rule);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .nav nav {
+    display: flex;
+  }
+
+  .nav__cells {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__cells li {
+    display: flex;
+  }
+
+  .nav__cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0 1.6rem;
+    border: 0;
+    border-left: var(--rule-thick) solid var(--color-rule);
+    background: transparent;
+    color: var(--color-text);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav__cell:hover {
+    background: var(--color-hover);
+  }
+
+  .nav__cell.is-active {
+    background: var(--color-inverse-bg);
+    color: var(--color-inverse-text);
+  }
+
+  /* Half-filled circle icon */
+  .nav__icon {
+    width: 0.95em;
+    height: 0.95em;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+  }
+
+  @media (max-width: 640px) {
+    .nav {
+      flex-direction: column;
+    }
+    .nav__brand {
+      padding: 0.9rem 1rem;
+      border-right: 0;
+      border-bottom: var(--rule-thick) solid var(--color-rule);
+    }
+    .nav nav,
+    .nav__cells {
+      width: 100%;
+    }
+    .nav__cells li {
+      flex: 1;
+    }
+    .nav__cells li:first-child .nav__cell {
+      border-left: 0;
+    }
+    .nav__cell {
+      flex: 1;
+      justify-content: center;
+      padding: 0.9rem 0.5rem;
+    }
+  }
+</style>

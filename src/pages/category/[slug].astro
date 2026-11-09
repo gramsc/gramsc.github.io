@@ -1,0 +1,66 @@
+---
+/*
+ * Full list of posts in one category: the target of the
+ * "All N posts →" links on the home page. URL: /category/<slug>/.
+ */
+import { url } from '../../lib/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryHeader from '../../components/CategoryHeader.astro';
+import PostEntry from '../../components/PostEntry.astro';
+import { categories, type Category } from '../../data/categories';
+import { getPostsInCategory } from '../../lib/posts';
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
+}
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const posts = await getPostsInCategory(category.slug);
+---
+
+<BaseLayout title={category.name} description={category.description}>
+  <section class="category">
+    <CategoryHeader category={category} as="h1" />
+    <p class="category__count mono-label">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+    <div>
+      {posts.map((post) => <PostEntry post={post} />)}
+    </div>
+    <footer class="category__footer">
+      <a class="mono-label" href={url('/')}>← All categories</a>
+    </footer>
+  </section>
+</BaseLayout>
+
+<style>
+  .category {
+    max-width: 48rem;
+    border-right: var(--rule-thick) solid var(--color-rule);
+    min-height: calc(100vh - var(--nav-height));
+  }
+
+  .category__count {
+    margin: 0;
+    padding: 0.7rem var(--gutter);
+    border-bottom: var(--rule-thin) solid var(--color-rule);
+    color: var(--color-muted);
+  }
+
+  .category__footer {
+    padding: 2rem var(--gutter) 1.4rem;
+  }
+
+  .category__footer a {
+    color: var(--color-link);
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 860px) {
+    .category {
+      border-right: 0;
+    }
+  }
+</style>

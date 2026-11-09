@@ -1,0 +1,52 @@
+---
+/*
+ * Wraps every page: <head>, the top navigation, then the page content.
+ */
+import { url } from '../lib/url';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import { site } from '../data/site';
+
+interface Props {
+  /** Page-specific title; omitted on the home page. */
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.tagline } = Astro.props;
+const fullTitle = title ? `${title} · ${site.title}` : `${site.title} · ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <meta name="generator" content={Astro.generator} />
+    <!--
+      Apply the saved (or system) theme before the page paints,
+      so dark-mode users don't see a white flash.
+    -->
+    <script is:inline>
+      (function () {
+        var theme;
+        try { theme = localStorage.getItem('theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

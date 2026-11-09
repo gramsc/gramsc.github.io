@@ -1,0 +1,61 @@
+---
+/*
+ * Huge display heading with a small accent line on the right,
+ * closed by a thick rule (the "BROWSE / 浏览" band on the reference).
+ */
+interface Props {
+  title: string;
+  aside?: string;
+}
+
+const { title, aside } = Astro.props;
+---
+
+<section class="page-heading">
+  <h1 class="page-heading__title">{title}</h1>
+  {aside && <p class="page-heading__aside">{aside}</p>}
+</section>
+
+<style>
+  .page-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    padding: 2.5rem 4.5rem 1.75rem;
+    border-bottom: var(--rule-thick) solid var(--color-rule);
+  }
+
+  .page-heading__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .page-heading__aside {
+    max-width: 22rem;
+    margin: 0 0 0.4rem auto; /* stays on the right even when it wraps */
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-accent);
+    text-align: right;
+  }
+
+  @media (max-width: 640px) {
+    .page-heading {
+      padding: 1.75rem 1rem 1.25rem;
+    }
+    .page-heading__aside {
+      margin-left: 0;
+      text-align: left;
+      font-size: 1.05rem;
+    }
+  }
+</style>

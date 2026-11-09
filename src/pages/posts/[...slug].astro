@@ -1,0 +1,114 @@
+---
+/*
+ * Template for a single post. One page is generated per Markdown file
+ * in src/content/posts/; the URL is /posts/<file-name>/.
+ */
+import { url } from '../../lib/url';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categoryNumber, getCategory } from '../../data/categories';
+import { formatDate, getPosts, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const category = getCategory(post.data.category)!;
+---
+
+<BaseLayout title={post.data.title} description={post.data.summary}>
+  <article>
+    <header class="post-header">
+      <a class="post-header__category mono-label" href={url(`/category/${category.slug}/`)}>
+        <span class="post-header__number">{categoryNumber(category.slug)}</span>
+        {category.name}
+      </a>
+      <h1 class="post-header__title">{post.data.title}</h1>
+      <p class="post-header__summary">{post.data.summary}</p>
+      <time class="post-header__date mono-label" datetime={post.data.date.toISOString()}>
+        {formatDate(post.data.date)}
+      </time>
+    </header>
+
+    <div class="post-body prose">
+      <Content />
+    </div>
+
+    <footer class="post-footer">
+      <a class="mono-label" href={url(`/category/${category.slug}/`)}>← More in {category.name}</a>
+      <a class="mono-label" href={url('/')}>All categories</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header {
+    padding: 2.5rem 4.5rem 1.75rem;
+    border-bottom: var(--rule-thick) solid var(--color-rule);
+  }
+
+  .post-header__category {
+    display: inline-flex;
+    gap: 0.75em;
+    color: var(--color-accent);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .post-header__category:hover {
+    text-decoration: underline;
+  }
+
+  .post-header__title {
+    max-width: 22em;
+    margin: 0.9rem 0 0.75rem;
+    font-family: var(--font-serif);
+    font-size: var(--text-h1);
+    line-height: 1.15;
+  }
+
+  .post-header__summary {
+    max-width: var(--content-width);
+    margin: 0 0 0.9rem;
+    font-size: 1.15rem;
+    color: var(--color-muted);
+  }
+
+  .post-header__date {
+    color: var(--color-muted);
+  }
+
+  .post-body {
+    padding: 2rem 4.5rem 1rem;
+  }
+
+  .post-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.4rem 4.5rem;
+    border-top: var(--rule-thick) solid var(--color-rule);
+  }
+
+  .post-footer a {
+    color: var(--color-link);
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .post-header,
+    .post-body,
+    .post-footer {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+</style>
